@@ -1,0 +1,39 @@
+# .NET / C# Backend
+backend/**/bin/
+backend/**/obj/
+backend/.vs/
+backend/*.user
+backend/*.suo
+backend/*.userosscache
+backend/*.sln.docstates
+backend/appsettings.Development.json
+
+# SQLite Database (Exclude if you want evaluators to start fresh, but usually we KEEP it if we want them to see seed data)
+# Depending on requirements, we can comment this out. I'll leave it commented so seed data goes to GitHub.
+# backend/AssignmentSubmission.Api/assignment_submission.db
+
+# Node.js / Next.js Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnp.*
+frontend/.eslintcache
+
+# Launcher / Evaluator localized environment (Do not push isolated evaluator binaries!)
+.local_env/
+.local_tools/
+
+# OS/Editor Defaults
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

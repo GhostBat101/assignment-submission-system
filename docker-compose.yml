@@ -1,0 +1,48 @@
+# File: docker-compose.yml
+# Purpose: Single-command orchestration for PostgreSQL DB, ASP.NET Core Web API, and Next.js Frontend.
+
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: assignment_db
+    environment:
+      POSTGRES_DB: assignment_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: assignment_api
+    environment:
+      USE_POSTGRES: "true"
+      ConnectionStrings__DefaultConnection: "Host=postgres;Database=assignment_db;Username=postgres;Password=postgrespassword"
+      Jwt__Secret: "SuperSecretKeyForAssignmentSubmissionManagementSystem2026!"
+      Jwt__Issuer: "AssignmentSubmissionApi"
+      Jwt__Audience: "AssignmentSubmissionApp"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: assignment_ui
+    environment:
+      NEXT_PUBLIC_API_URL: "http://localhost:5000/api"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
