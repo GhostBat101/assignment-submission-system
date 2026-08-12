@@ -156,12 +156,13 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 // 2. Security Headers (Helmet equivalents)
 app.UseMiddleware<SecurityHeadersMiddleware>();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Enable Swagger Documentation UI unconditionally
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Assignment & Submission API v1");
+    c.RoutePrefix = "swagger";
+});
 
 app.UseCors("AllowFrontend");
 
