@@ -156,8 +156,15 @@ Set-Content -Path $backendScript -Value "@echo off`nset PATH=$env:PATH`nset DOTN
 Start-Process -FilePath $backendScript -WindowStyle Normal
 
 Write-Host "[2/3] Launching Next.js Frontend Web Application (Port 3000)..."
+if (!(Test-Path (Join-Path $ProjectDir "frontend\node_modules"))) {
+    Write-Color "First-time setup: Installing frontend dependencies..." "Cyan"
+    $installScript = Join-Path $LocalEnvDir "npm_install.cmd"
+    Set-Content -Path $installScript -Value "@echo off`nset PATH=$env:PATH`ncd /d `"$ProjectDir\frontend`"`nnpm install"
+    Start-Process -FilePath $installScript -Wait -WindowStyle Normal
+}
+
 $frontendScript = Join-Path $LocalEnvDir "run_frontend.cmd"
-Set-Content -Path $frontendScript -Value "@echo off`nset PATH=$env:PATH`ncd /d `"$ProjectDir\frontend`"`nnode node_modules\next\dist\bin\next dev`npause"
+Set-Content -Path $frontendScript -Value "@echo off`nset PATH=$env:PATH`ncd /d `"$ProjectDir\frontend`"`nnpm run dev`npause"
 Start-Process -FilePath $frontendScript -WindowStyle Normal
 
 Write-Host ""
