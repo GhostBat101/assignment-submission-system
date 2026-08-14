@@ -67,16 +67,26 @@ Every source file across both backend (`.cs`) and frontend (`.ts`/`.tsx`) includ
 
 ---
 
-## 🚀 Setup & Execution Options
+## 🚀 Setup & Execution Options (Dual-Engine Architecture)
 
-### Option 1: 1-Click Windows Batch Script (Easiest)
+To ensure evaluators have a flawless, zero-configuration experience while still fulfilling the requirement for a production-grade PostgreSQL architecture, this project utilizes a **Dual-Database Engine Strategy** depending entirely on how you run it.
+
+### Option 1: 1-Click Windows Batch Script (The "Zero-Setup" Fallback)
 Double-click `run.bat` in the root folder.
 
-### Option 2: 1-Click Docker Setup
-If you prefer running via Docker containers, execute:
+* **Database Used:** **SQLite**
+* **Why it was made:** If an evaluator runs the project on a standard Windows machine that does not have a PostgreSQL server actively running on port 5432, a traditional API would crash instantly. To prevent this, `run.bat` bypasses PostgreSQL entirely. It gracefully falls back to a local SQLite file (`assignment_system.db`), seeds the demo data there, and boots the servers. This guarantees the app runs perfectly on *any* Windows machine without requiring you to install database software!
+
+### Option 2: 1-Click Docker Setup (The Production Architecture)
+If you prefer testing the true production environment with PostgreSQL, execute:
 ```bash
 docker-compose up --build
 ```
+
+* **Database Used:** **PostgreSQL 16**
+* **How it works:** Docker provisions a true, native PostgreSQL container. It injects a `USE_POSTGRES=true` environment variable into the backend API. When the API detects this flag, it completely ignores SQLite, dynamically connects to the PostgreSQL container, generates the SQL schema, and seeds the data into Postgres. 
+
+**Access URLs for both options:**
 - **Frontend UI:** `http://localhost:3000`
 - **Backend API:** `http://localhost:5000/api`
 - **Swagger Documentation:** `http://localhost:5000/swagger`
