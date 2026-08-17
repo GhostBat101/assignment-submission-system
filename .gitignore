@@ -36,4 +36,12 @@ frontend/.eslintcache
 Thumbs.db
 .idea/
 .vscode/
-*.swp
+# Agent/Project documentation & AI Rules
+agents.md
+claude.md
+.cursorrules
+.cursor/
+.windsurfrules
+.cline/
+cline_docs/
+.aider*
